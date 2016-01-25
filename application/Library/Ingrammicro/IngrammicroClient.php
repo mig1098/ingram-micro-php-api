@@ -8,19 +8,25 @@ namespace Library\Ingrammicro;
 class IngrammicroClient{
     private $url,$login,$password;
     private $queryparams = array();
+    private $getObject = false;
     //
     public function __construct($url='',$login='',$password=''){
         $this->url      = $url;
         $this->login    = $login;
         $this->password = $password;
     }
+    
+    public function getObject($bool=true){
+        $this->getObject = $bool;
+        return $this;
+    }
+    
     public function call($method,$action,$data){
         $url = $this->buildUrl();
         $body = $this->xmlParse($data,$action);
         $header  = in_array($method,array('POST','PUT'))?$this->buildHeader($body):array();
 
-        return $this->curlRequest($url,$header,$body);
-        //return $this->XMLDecode((string)$this->curlRequest($url,$header,$body));  
+        return ($this->getObject)?$this->XMLDecode($this->curlRequest($url,$header,$body)):$this->curlRequest($url,$header,$body);  
     }
     
     public function curlRequest($url,$header,$body=null){
