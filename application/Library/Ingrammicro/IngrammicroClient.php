@@ -15,11 +15,8 @@ class IngrammicroClient{
         $this->password = $password;
     }
     public function call($method,$action,$data){
-        //echo 'calling';
         $url = $this->buildUrl();
         $body = $this->xmlParse($data,$action);
-        //echo '<pre>'.$body.'</pre>';
-        //return;
         $header  = in_array($method,array('POST','PUT'))?$this->buildHeader($body):array();
 
         return $this->curlRequest($url,$header,$body);
@@ -56,23 +53,14 @@ class IngrammicroClient{
     }
     
     private function buildUrl(){
-        /*
-        $params = array(
-            'LoginID' => $this->login,
-            'Password' => $this->password
-        );
-        $params = array_merge($params,$this->queryparams);
-        $url = $this->url.'?'.http_build_query($params);
-        */
         return $this->url;
     }
     private function buildHeader($data){
-        /*return array(
+        return array(
             'Content-Action'=>'Ingram_Micro',
             'Content-Length'=>strlen($data),
             'Content-Type'=>'text/xml charset=utf-8'
-        );*/
-        return array();
+        );
     }
     private function XMLDecode($string){
         $xml = new \SimpleXMLElement($string);
