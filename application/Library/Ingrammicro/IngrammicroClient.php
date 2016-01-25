@@ -26,7 +26,7 @@ class IngrammicroClient{
         $body = $this->xmlParse($data,$action);
         $header  = in_array($method,array('POST','PUT'))?$this->buildHeader($body):array();
 
-        return ($this->getObject)?$this->XMLDecode($this->curlRequest($url,$header,$body)):$this->curlRequest($url,$header,$body);  
+        return ($this->getObject) ? $this->XMLDecode($this->curlRequest($url,$header,$body)) : $this->curlRequest($url,$header,$body);  
     }
     
     public function curlRequest($url,$header,$body=null){
