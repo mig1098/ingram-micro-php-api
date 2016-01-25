@@ -1,4 +1,8 @@
 <?php
+/**
+ * @author <mig1098@hotmail.com>
+ * @date 25-01-2016
+ * */
 namespace Model;
 use Library\Ingrammicro\IngrammicroClient;
 
