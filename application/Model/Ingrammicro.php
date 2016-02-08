@@ -12,11 +12,15 @@ class Ingrammicro{
         $this->IngrammicroClient = new IngrammicroClient($data['url'],$data['login'],$data['password']);
     }
     
+    public function orderEntryTransaction($data){
+        return $this->IngrammicroClient->call('POST','orderEntryTransaction',$data);
+    }
+    
     public function OrderStatusRequest($data){
         return $this->IngrammicroClient->call('POST','OrderStatusRequest',$data);
     }
     
-    public function PNArequest(){
-        return $this->IngrammicroClient->call('POST','ProductRequest',$data);
+    public function PNArequest($data){
+        return $this->IngrammicroClient->getObject(false)->call('POST','ProductRequest',$data);
     }
 }
