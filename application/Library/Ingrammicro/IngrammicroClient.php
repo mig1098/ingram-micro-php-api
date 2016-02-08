@@ -22,10 +22,10 @@ class IngrammicroClient{
     }
     
     public function call($method,$action,$data){
-        $url = $this->buildUrl();
-        $body = $this->xmlParse($data,$action);
-        $header  = in_array($method,array('POST','PUT'))?$this->buildHeader($body):array();
-
+        $url    = $this->buildUrl();
+        $body   = $this->xmlParse($data,$action);
+        $header = in_array($method,array('POST','PUT'))?$this->buildHeader($body):array();    
+        //return $body;
         return ($this->getObject) ? $this->XMLDecode($this->curlRequest($url,$header,$body)) : $this->curlRequest($url,$header,$body);  
     }
     
@@ -54,7 +54,7 @@ class IngrammicroClient{
         curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 6.2; WOW64; rv:17.0) Gecko/20100101 Firefox/17.0');
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0); 
         //if(!empty($header)){
-            curl_setopt($ch, CURLOPT_POSTFIELDS, $body);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $body);
         //}
     }
     
@@ -82,6 +82,9 @@ class IngrammicroClient{
             case 'ProductRequest':
                 $data = is_array($content) ? $this->buildProduct($content) : $this->setCredentials($content);
             break;
+            case 'orderEntryTransaction':
+                $data = is_array($content) ? $this->buildOrderCreate($content) : $this->setCredentials($content);
+            break;
             case 'order':
             case 'OrderStatusRequest':
                 $data = is_array($content) ? $this->buildOrder($content): $this->setCredentials($content);
@@ -93,6 +96,9 @@ class IngrammicroClient{
         return str_replace(array('ingram_login','ingram_password'),array($this->login,$this->password),$content);
     }
     private function buildProduct($content){//parse array to xml text
+        return $content;
+    }
+    private function buildOrderCreate($content){//parse array to xml text
         return $content;
     }
     private function buildOrder($content){//parse array to xml text
