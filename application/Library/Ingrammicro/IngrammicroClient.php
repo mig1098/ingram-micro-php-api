@@ -1,13 +1,17 @@
 <?php
 /**
  * @author <mig1098@hotmail.com>
- * @date 25-01-2016
+ * @date 05-05-2016
  * */
 namespace Library\Ingrammicro;
 //
 class IngrammicroClient{
     private $url,$login,$password;
     private $queryparams = array();
+    /**
+     * @var boolean
+     * true to get response in an object.
+     * */
     private $getObject = false;
     //
     public function __construct($url='',$login='',$password=''){
@@ -30,12 +34,6 @@ class IngrammicroClient{
     }
     
     public function curlRequest($url,$header,$body=null){
-        /*
-        var_dump($url);
-        var_dump($header);
-        var_dump($body);
-        exit;
-        */
         $ch = curl_init();
         $this->curlSetOptions($ch,$url,$header,$body);
         $response = curl_exec($ch);
@@ -82,13 +80,18 @@ class IngrammicroClient{
             case 'ProductRequest':
                 $data = is_array($content) ? $this->buildProduct($content) : $this->setCredentials($content);
             break;
-            case 'orderEntryTransaction':
+            case 'SynchronousOrderRequestTransaction':
                 $data = is_array($content) ? $this->buildOrderCreate($content) : $this->setCredentials($content);
             break;
             case 'order':
-            case 'OrderStatusRequest':
+            case 'orderStatusTransaction':
+            case 'orderDetailTransaction':
+            case 'BaseRateTransaction':
+            case 'OrderTrackingTransaction':
+            case 'RMASubmittalRequestTransaction':
                 $data = is_array($content) ? $this->buildOrder($content): $this->setCredentials($content);
             break;
+            
         }
         return $data;
     }
